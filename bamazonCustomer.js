@@ -40,7 +40,7 @@ function displayItemsForSale() {
         for (var i = 0; i < result.length; i++) {
             // console.log(chalk.yellowBright("Item ID: " + result[i].item_id + " || Product Name: " + result[i].product_name + " || Price: " + result[i].price));
             // console.log(chalk.yellowBright(result[i].item_id + "            || " + result[i].product_name + "                       || " + result[i].price));
-            console.log(chalk.yellowBright(result[i].item_id + "            || " + result[i].product_name + "                                 || " + result[i].price));
+            console.log(chalk.yellowBright(result[i].item_id + "            || " + result[i].product_name + "                                || " + result[i].price));
         }
         console.log("\n");
         buyItem();
@@ -92,8 +92,8 @@ function buyItem() {
                         } else {
                             var newStockQuantity = stockQuantity - userChosenItemCount;
                             var totalCost = userChosenItemCount * productPrice;
-                            console.log("Total cost is: " + totalCost);
-                            console.log("Updated stock quantity is: " + newStockQuantity);
+                            // console.log("Total cost is: " + totalCost);
+                            // console.log("Updated stock quantity is: " + newStockQuantity);
                             db.query(
                                 "UPDATE products SET ? WHERE ?",
                                 [
