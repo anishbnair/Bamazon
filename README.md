@@ -1,22 +1,22 @@
 # Bamazon
 
-This is a hangman command-line game using constructor functions and node.
+Bamazon is a simple e-commerce app. It connects to a mysql database to store and retrieve product and department information.
 
 ## Installs:
 
 The [package.json](https://github.com/anishbnair/Bamazon/blob/master/package.json) lists dependent node packages, but for your convenvice, these are the ones to install.
 
 * [Inquirer](https://www.npmjs.com/package/inquirer)
-    - npm install inquirer
+    - `npm install inquirer`
 
 * [mysql](https://www.npmjs.com/package/mysql)
-    - npm install mysql
+    - `npm install mysql`
 
 * [Chalk](https://www.npmjs.com/package/chalk)
-    - npm install chalk
+    - `npm install chalk`
 
 * [dotenv](https://www.npmjs.com/package/dotenv)
-    - npm install dotenv --save
+    - `npm install dotenv --save`
 
 ## Customer View:
 
@@ -27,9 +27,7 @@ Once the customer has placed the order, application will check if the store has 
 ### Getting Started:
 
 * To run this module in the terminal:
-* ```javascript
-node bamazonCustomer.js
-```
-### Screenshot:
+`node bamazonCustomer.js`
 
-![Hangman](/images/customerView1.png)
+### Screenshot:
+![Bamazon](/images/customerView1.png)
