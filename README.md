@@ -11,6 +11,7 @@ Bamazon is a simple e-commerce app. It connects to a mysql database to store and
 ### Node Packages:
 
 The [package.json](https://github.com/anishbnair/Bamazon/blob/master/package.json){:target="_blank"} lists dependent node packages, but for your convenvice, these are the ones to install.
+<a href="https://github.com/anishbnair/Bamazon/blob/master/package.json" target="_blank">package.json</a>
 
 * [Inquirer](https://www.npmjs.com/package/inquirer){:target="_blank"}
     - `npm install inquirer`
