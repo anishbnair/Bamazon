@@ -18,7 +18,7 @@ The [package.json](https://github.com/anishbnair/Bamazon/blob/master/package.jso
 * [dotenv](https://www.npmjs.com/package/dotenv)
     - `npm install dotenv --save`
 
-* [dotenv](https://www.npmjs.com/package/cli-table)
+* [cli-table](https://www.npmjs.com/package/cli-table)
     - `npm install cli-table`
 
 ## Customer View:
