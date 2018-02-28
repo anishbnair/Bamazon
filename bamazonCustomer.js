@@ -1,4 +1,6 @@
-
+// ===============================================================================
+// DEPENDENCIES
+// ===============================================================================
 
 require("dotenv").config();
 
@@ -8,7 +10,11 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 // load chalk npm package
 var chalk = require("chalk");
+// load chalk npm package
+var Table = require("cli-table");
 
+
+// MYSQL 
 var db = mysql.createConnection({
     host: process.env.mysql_host,
     port: process.env.PORT || 3306,
@@ -36,12 +42,20 @@ function displayItemsForSale() {
         if (error) throw error;
         // log all items from database
         // console.log(result);
-        console.log(chalk.greenBright("Item ID: " + "    || Product Name: " + "                              || Price: "));
+        // console.log(chalk.greenBright("Item ID: " + "    || Product Name: " + "                              || Price: "));
+        //Create a new Table in the cli-table view  
+        var table = new Table({
+            // head: ['ID'.cyan, 'PRODUCT NAME'.cyan, 'DEPARTMENT'.cyan, 'PRICE'.cyan, 'STOCK QUANTITY'.cyan]
+            head: ['ID', 'PRODUCT NAME', 'DEPARTMENT', 'PRICE', 'STOCK QUANTITY']
+        });
         for (var i = 0; i < result.length; i++) {
             // console.log(chalk.yellowBright("Item ID: " + result[i].item_id + " || Product Name: " + result[i].product_name + " || Price: " + result[i].price));
             // console.log(chalk.yellowBright(result[i].item_id + "            || " + result[i].product_name + "                       || " + result[i].price));
-            console.log(chalk.yellowBright(result[i].item_id + "            || " + result[i].product_name + "                                || " + result[i].price));
+            // console.log(chalk.yellowBright(result[i].item_id + "            || " + result[i].product_name + "                                || " + result[i].price));
+            table.push([result[i].item_id, result[i].product_name, result[i].department_name, result[i].price.toFixed(2), result[i].stock_quantity]);
         }
+        //Create table layout with items for sale
+        console.log(table.toString());
         console.log("\n");
         buyItem();
         // connection.end();
@@ -88,7 +102,12 @@ function buyItem() {
                         // console.log("Available quantity is: " + stockQuantity);
                         // console.log("Product price is: " + productPrice);
                         if (stockQuantity < userChosenItemCount) {
-                            console.log(chalk.yellowBright("Sorry, Insufficient quantity!. Availabale quantity of the selected item " + productName + " is only " + stockQuantity + ". Please change your order accordingly."));
+                            console.log(chalk.magentaBright("\n*********************************************************************"));
+                            console.log(chalk.redBright("*** Sorry, Insufficient quantity! Please change your order accordingly."));
+                            console.log(chalk.redBright("*** Product ordered: " + productName));
+                            console.log(chalk.redBright("*** No. of units of products ordered: " + userChosenItemCount));
+                            console.log(chalk.redBright("*** Available quantity of the selected product: " + stockQuantity));
+                            console.log(chalk.magentaBright("*********************************************************************\n"));
                         } else {
                             var newStockQuantity = stockQuantity - userChosenItemCount;
                             var totalCost = userChosenItemCount * productPrice;
@@ -106,8 +125,12 @@ function buyItem() {
                                 ],
                                 function (error) {
                                     if (error) throw error;
-                                    console.log(chalk.yellowBright("Order placed successfully! Your total cost is: " + totalCost));
-
+                                    console.log(chalk.yellowBright("\nYour order placed successfully! Please find your order details below:"));
+                                    console.log(chalk.magentaBright("\n****************************************************************"));
+                                    console.log(chalk.greenBright("*** Product ordered: " + productName));
+                                    console.log(chalk.greenBright("*** No. of units of products ordered: " + userChosenItemCount));
+                                    console.log(chalk.greenBright("*** Total Cost: " + totalCost));
+                                    console.log(chalk.magentaBright("****************************************************************\n"));
                                 }
                             );
 
