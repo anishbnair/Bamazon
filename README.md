@@ -2,7 +2,7 @@
 
 Bamazon is a simple e-commerce app. It connects to a mysql database to store and retrieve product and department information.
 
-## Installs:
+## Node Packages:
 
 The [package.json](https://github.com/anishbnair/Bamazon/blob/master/package.json) lists dependent node packages, but for your convenvice, these are the ones to install.
 
@@ -18,6 +18,9 @@ The [package.json](https://github.com/anishbnair/Bamazon/blob/master/package.jso
 * [dotenv](https://www.npmjs.com/package/dotenv)
     - `npm install dotenv --save`
 
+* [dotenv](https://www.npmjs.com/package/cli-table)
+    - `npm install cli-table`
+
 ## Customer View:
 
 The customer module lets users select a product to purchase, enter the number of items they wish to purchase, and then complete the purchase.
@@ -29,5 +32,8 @@ Once the customer has placed the order, application will check if the store has 
 * To run this module in the terminal:
 `node bamazonCustomer.js`
 
-### Screenshot:
-![Bamazon](/images/customerView1.png)
+### Screenshots:
+#### Sucessful Transaction:
+![Bamazon](/images/customerView_Success.png)
+#### Insuffient Quantity:
+![Bamazon](/images/customerView_Fail.png)
