@@ -10,22 +10,21 @@ Bamazon is a simple e-commerce app. It connects to a mysql database to store and
 
 ### Node Packages:
 
-The [package.json](https://github.com/anishbnair/Bamazon/blob/master/package.json){:target="_blank"} lists dependent node packages, but for your convenvice, these are the ones to install.
-<a href="https://github.com/anishbnair/Bamazon/blob/master/package.json" target="_blank">package.json</a>
+The [package.json](https://github.com/anishbnair/Bamazon/blob/master/package.json) lists dependent node packages, but for your convenvice, these are the ones to install.
 
-* [Inquirer](https://www.npmjs.com/package/inquirer){:target="_blank"}
+* [Inquirer](https://www.npmjs.com/package/inquirer)
     - `npm install inquirer`
 
-* [mysql](https://www.npmjs.com/package/mysql){:target="_blank"}
+* [mysql](https://www.npmjs.com/package/mysql)
     - `npm install mysql`
 
-* [Chalk](https://www.npmjs.com/package/chalk){:target="_blank"}
+* [Chalk](https://www.npmjs.com/package/chalk)
     - `npm install chalk`
 
-* [dotenv](https://www.npmjs.com/package/dotenv){:target="_blank"}
+* [dotenv](https://www.npmjs.com/package/dotenv)
     - `npm install dotenv --save`
 
-* [cli-table](https://www.npmjs.com/package/cli-table){:target="_blank"}
+* [cli-table](https://www.npmjs.com/package/cli-table)
     - `npm install cli-table`
 
 ## Customer View:
