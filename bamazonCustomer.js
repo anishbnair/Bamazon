@@ -34,15 +34,16 @@ db.connect(function (err) {
 
 // function to display items for sale
 function displayItemsForSale() {
-    console.log(chalk.magentaBright("\n****************** Welcome to Bamazon!!! ************************"));
-    console.log(chalk.magentaBright("\n****************** Below are the items available for sale: ******\n"));
+    console.log(chalk.magentaBright("\n************************************** WELCOME TO BAMAZON!!! **********************************************"));
+    console.log(chalk.magentaBright("\n************************************** Below are the items available for sale: ****************************\n"));
 
     db.query("SELECT * FROM products", function (error, result) {
         if (error) throw error;
         // log all items from database
-        //Create a new Table in the cli-table view  
+        //Create a new Table in the cli-table view
         var table = new Table({
-            head: ['ID', 'PRODUCT NAME', 'DEPARTMENT', 'PRICE', 'STOCK QUANTITY']
+            // head: ['ID', 'PRODUCT NAME', 'DEPARTMENT', 'PRICE', 'STOCK QUANTITY']
+            head: [chalk.greenBright('ID'), chalk.greenBright('PRODUCT NAME'), chalk.greenBright('DEPARTMENT'), chalk.greenBright('PRICE'), chalk.greenBright('STOCK QUANTITY')]
         });
         for (var i = 0; i < result.length; i++) {
             table.push([result[i].item_id, result[i].product_name, result[i].department_name, result[i].price.toFixed(2), result[i].stock_quantity]);
@@ -56,6 +57,7 @@ function displayItemsForSale() {
 }
 
 
+
 // function to buy an item
 function buyItem() {
 
@@ -67,7 +69,7 @@ function buyItem() {
                 message: chalk.yellowBright("Enter the ID of the product that you would like to buy: "),
             },
             {
-                name: "unit",
+                name: "quantity",
                 type: "input",
                 message: chalk.yellowBright("Enter the # of units of products that you would like to buy: "),
             }
@@ -75,27 +77,35 @@ function buyItem() {
         .then(function (userResponse) {
 
             var userChosenItemID = userResponse.id;
-            var userChosenItemCount = userResponse.unit;
+            var quantityOrdered = userResponse.quantity;
 
             var query = "SELECT * FROM products";
+            // "SELECT * FROM products WHERE ?", { item_ID: userChosenItemID }
 
             db.query(query, function (error, result) {
 
                 for (var i = 0; i < result.length; i++) {
                     if (userChosenItemID == result[i].item_id) {
+                        var productID = userChosenItemID;
                         var productName = result[i].product_name;
+                        var departmentName = result[i].department_name;
                         var stockQuantity = result[i].stock_quantity;
                         var productPrice = result[i].price;
-                        if (stockQuantity < userChosenItemCount) {
-                            console.log(chalk.magentaBright("\n*********************************************************************"));
+                        if (quantityOrdered > stockQuantity) {
+                            console.log(chalk.magentaBright("\n*****************************************************************************************"));
                             console.log(chalk.redBright("*** Sorry, Insufficient quantity! Please change your order accordingly."));
-                            console.log(chalk.redBright("*** Product ordered: " + productName));
-                            console.log(chalk.redBright("*** No. of units of products ordered: " + userChosenItemCount));
-                            console.log(chalk.redBright("*** Available quantity of the selected product: " + stockQuantity));
-                            console.log(chalk.magentaBright("*********************************************************************\n"));
+
+                            var table = new Table({
+                                head: [chalk.greenBright("ID"), chalk.greenBright("PRODUCT NAME"), chalk.greenBright("DEPARTMENT"), chalk.greenBright("PRICE"), chalk.greenBright("STOCK QUANTITY"), chalk.greenBright("QUANTITY ORDERED")]
+                            });
+                            table.push([productID, productName, departmentName, productPrice.toFixed(2), stockQuantity, quantityOrdered]);
+                            console.log(table.toString());
+
+                            console.log(chalk.magentaBright("******************************************************************************************\n"));
+
                         } else {
-                            var newStockQuantity = stockQuantity - userChosenItemCount;
-                            var totalCost = userChosenItemCount * productPrice;
+                            var newStockQuantity = stockQuantity - quantityOrdered;
+                            var totalCost = quantityOrdered * productPrice;
                             db.query(
                                 "UPDATE products SET ? WHERE ?",
                                 [
@@ -103,17 +113,22 @@ function buyItem() {
                                         stock_quantity: newStockQuantity
                                     },
                                     {
-                                        item_id: userChosenItemID
+                                        item_id: productID
                                     }
                                 ],
                                 function (error) {
                                     if (error) throw error;
+                                    console.log(chalk.magentaBright("\n*****************************************************************************************"));
                                     console.log(chalk.yellowBright("\nYour order placed successfully! Please find your order details below:"));
-                                    console.log(chalk.magentaBright("\n****************************************************************"));
-                                    console.log(chalk.greenBright("*** Product ordered: " + productName));
-                                    console.log(chalk.greenBright("*** No. of units of products ordered: " + userChosenItemCount));
-                                    console.log(chalk.greenBright("*** Total Cost: " + totalCost));
-                                    console.log(chalk.magentaBright("****************************************************************\n"));
+
+                                    var table = new Table({
+                                        head: [chalk.greenBright("ID"), chalk.greenBright("PRODUCT NAME"), chalk.greenBright("DEPARTMENT"), chalk.greenBright("PRICE"), chalk.greenBright("QUANTITY ORDERED"), chalk.greenBright("TOTAL COST")]
+                                    });
+                                    table.push([productID, productName, departmentName, productPrice.toFixed(2), quantityOrdered, totalCost.toFixed(2)]);
+                                    console.log(table.toString());
+
+                                    console.log(chalk.magentaBright("******************************************************************************************\n"));
+
                                 }
                             );
 
@@ -123,7 +138,10 @@ function buyItem() {
 
                 }
 
+                // process.exit();
+
             })
+
 
         })
 }
