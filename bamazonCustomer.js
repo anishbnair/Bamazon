@@ -51,14 +51,44 @@ function displayItemsForSale() {
         //Create table layout with items for sale
         console.log(table.toString());
         console.log("\n");
-        buyItem();
+        promptUser();
 
     })
 }
 
 
+// Function to ask user if they would like to shop/continue to shop
+function promptUser() {
 
-// function to buy an item
+    inquirer
+        .prompt([
+            {
+                name: "option",
+                type: "list",
+                choices: ["Yes", "No"],
+                message: chalk.yellowBright("Do you want to shop?"),
+            },
+        ])
+        .then(function (userResponse) {
+
+            console.log(userResponse.option);
+
+            if (userResponse.option == "Yes") {
+                // proceed with shopping
+                buyItem();
+
+            } else {
+                console.log(chalk.magentaBright("\n************************************** Thank you! Visit again! ****************************\n"));
+                // terminate process
+                process.exit();
+            }
+
+        })
+
+}
+
+
+// Function to buy an item
 function buyItem() {
 
     inquirer
@@ -80,7 +110,6 @@ function buyItem() {
             var quantityOrdered = userResponse.quantity;
 
             var query = "SELECT * FROM products";
-            // "SELECT * FROM products WHERE ?", { item_ID: userChosenItemID }
 
             db.query(query, function (error, result) {
 
@@ -102,6 +131,7 @@ function buyItem() {
                             console.log(table.toString());
 
                             console.log(chalk.magentaBright("******************************************************************************************\n"));
+                            promptUser();
 
                         } else {
                             var newStockQuantity = stockQuantity - quantityOrdered;
@@ -134,14 +164,13 @@ function buyItem() {
 
 
                         }
+                        promptUser();
                     }
 
                 }
 
-                // process.exit();
-
             })
 
-
         })
+
 }
